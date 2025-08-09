@@ -18,7 +18,7 @@ It retrieves answers from a medical PDF and provides concise, context-based resp
 
 clone the repo :
 
-git clone https://github.com/<your-username>/medical-chatbot.git
+git clone <https://github.com/Anii5123/Medical-Chatbot.git>
 cd medical-chatbot
 
 ## STEP 01- Create a conda environment after opening the repository
