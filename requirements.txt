@@ -1,0 +1,9 @@
+flask
+python-dotenv
+pinecone[grpc]
+langchain-pinecone
+langchain
+pypdf
+google-generativeai
+-e .
+ipykernel

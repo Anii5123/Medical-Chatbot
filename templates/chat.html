@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🩺 Medical Chatbot</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="chat-container">
+    <header>
+      <h1>🩺 Medical Chatbot</h1>
+      <p>Ask me anything about your medical PDF data.</p>
+    </header>
+
+    <div id="chat-box" class="chat-box" role="log" aria-live="polite" aria-atomic="false"></div>
+
+    <form id="chat-form" class="input-container" autocomplete="off">
+      <input
+        type="text"
+        id="user-input"
+        placeholder="Type your question here..."
+        aria-label="User input"
+        required
+        autofocus
+        autocomplete="off"
+      />
+      <button type="submit" aria-label="Send message">Send</button>
+    </form>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById("chat-box");
+    const chatForm = document.getElementById("chat-form");
+    const userInput = document.getElementById("user-input");
+
+    function addMessage(sender, text) {
+      const messageDiv = document.createElement("div");
+      messageDiv.classList.add("message", sender);
+      messageDiv.textContent = text;
+      chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    chatForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const userMessage = userInput.value.trim();
+      if (!userMessage) return;
+
+      addMessage("user", userMessage);
+      userInput.value = "";
+      userInput.disabled = true;
+
+      try {
+        const response = await fetch("/get", {
+          method: "POST",
+          body: new URLSearchParams({ msg: userMessage }),
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        });
+
+        if (!response.ok) throw new Error("Network response was not ok");
+
+        const botReply = await response.text();
+        addMessage("bot", botReply);
+      } catch {
+        addMessage("bot", "⚠️ Error connecting to server. Please try again.");
+      } finally {
+        userInput.disabled = false;
+        userInput.focus();
+      }
+    });
+  </script>
+</body>
+</html>
