@@ -3,10 +3,10 @@ python-dotenv
 pinecone[grpc]
 langchain-pinecone
 langchain
+langchain-community
 pypdf
 google-generativeai
 ipykernel
 pinecone
 gunicorn
 pinecone-client
-langchain-community
