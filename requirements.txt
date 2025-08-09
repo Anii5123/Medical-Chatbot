@@ -10,3 +10,4 @@ pinecone
 gunicorn
 pinecone-client
 sentence-transformers
+langchain-community
